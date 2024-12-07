@@ -1,0 +1,84 @@
+<html>
+    <head>
+        <title>வேல் மாறல்</title>
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+        <script src="vel_maaral.js"></script>
+        <link rel="stylesheet" type="text/css" href="vel_maaral.css">
+    </head>
+    <body>
+        <header class="center" data-count="1">
+            <div id="audio_switch">
+                <img src="images/aud_disabled.png" alt="Audio Disabled">
+            </div>
+            <h1>வேல் மாறல்</h1>
+            <h3>
+                வெற்றிவேல் முருகனுக்கு ஹரோ...ஹரா!
+                <br>
+                வீரவேல் முருகனுக்கு ஹரோ...ஹரா!
+                <br>
+                ஞானவேல் முருகனுக்கு ஹரோ...ஹரா!
+            </h3>
+            <img id="muruga_img" src="images/vallimalai_subramaniya_swami.jpg" alt="Vallimalai Subramaniya Swami" style="text-align: center;align-items: center;">
+            <p id="muruga_img_courtesy">
+                வள்ளிமலை சுப்பிரமணிய சுவாமி. உபயம்: 
+                <a href='https://www.dailythanthi.com/News/State/special-pooja-at-subramanya-swamy-temple-vallimalai-893606' target="_blank">தினத் தந்தி</a>
+            </p>
+        </header>
+        <div id="audio_files">
+            <audio class="1" src="./audio/01_VelMaaral.mp3"></audio> 
+            <audio class="2" src="./audio/01_VelMaaral.mp3"></audio> 
+            <audio class="3" src="./audio/01_VelMaaral.mp3"></audio> 
+            <audio class="4" src="./audio/01_VelMaaral.mp3"></audio> 
+            <audio class="5" src="./audio/01_VelMaaral.mp3"></audio> 
+            <audio class="6" src="./audio/01_VelMaaral.mp3"></audio> 
+            <audio class="7" src="./audio/01_VelMaaral.mp3"></audio> 
+            <audio class="8" src="./audio/01_VelMaaral.mp3"></audio> 
+            <audio class="9" src="./audio/01_VelMaaral.mp3"></audio> 
+            <audio class="10" src="./audio/01_VelMaaral.mp3"></audio> 
+            <audio class="11" src="./audio/01_VelMaaral.mp3"></audio> 
+            <audio class="12" src="./audio/01_VelMaaral.mp3"></audio> 
+            <audio class="13" src="./audio/01_VelMaaral.mp3"></audio> 
+            <audio class="14" src="./audio/01_VelMaaral.mp3"></audio> 
+            <audio class="15" src="./audio/01_VelMaaral.mp3"></audio> 
+            <audio class="16" src="./audio/01_VelMaaral.mp3"></audio> 
+        </div>
+        <div id="start" class="center" data-count="2">
+            <div>
+                <strong>திருத்தணியில் உதித்தருளும்...நடத்துகுஹன் வேலே</strong>
+                என்ற அடியை
+                <select id="thiruthani_repeat">
+                    <option value="12">12 முறை</option>
+                    <option value="20">20 முறை</option>
+                </select>
+                ஓதவுள்ளேன்.
+            </div>
+            <p id="repeat_note">
+                <u>
+                    <strong>குறிப்பு:</strong>
+                </u>
+                12 முறை ஓதுவதால் மொத்தம் 92 முறை ஓதிய கணக்கு வரும்.
+                <br>
+                20 முறை ஓதுவதால் மொத்தம் 108 முறை ஓதிய கணக்கு வரும். பலன் அதிகம்!
+            </p>
+            <br>
+            <div>
+                <button id="start_recital">துவங்கலாம்</button>
+            </div>
+        </div>
+        <div id="vel_maaral"></div>
+        <div id="end">
+            <div>
+                <button id="refresh">மீண்டும் ஓதவுள்ளேன்</button>
+            </div>
+        </div>
+        <footer>
+            <div id="audio_courtesy">
+                <u>
+                    <strong>ஒலி வடிவ உபயம்:</strong>
+                </u>
+                <a href="https://kaumaram.com/text_new/velmaral_u.html" target="_blank">கௌமாரம் வலைதளம்</a>
+                மற்றும் ரேவதி சங்கரன் அவர்கள்.
+            </div>
+        </footer>
+    </body>
+</html>

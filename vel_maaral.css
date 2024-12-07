@@ -1,0 +1,58 @@
+@font-face {
+    font-family: NotoSansTamilFont;
+    src: url("font/NotoSansTamil.ttf");
+}
+
+html {
+    font-family: NotoSansTamilFont;
+}
+
+body {
+    background-color: #FFDDDD;
+}
+
+header #audio_switch {
+    position: fixed;
+    left: 8px;
+    display: flex;
+}
+
+header #audio_switch img {
+    width: 25%;
+}
+
+img#muruga_img {
+    height: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+p#muruga_img_courtesy, p#repeat_note {
+    font-size: 7pt;
+}
+.center {
+    text-align: center;
+}
+
+#start_recital {
+    font-size: 12pt;
+    border-radius: 7px;
+    background-color: #04AA6D; /* Green */
+    border-color: #012E1D;
+    color: white;
+}
+
+h3.verse {
+    line-height: 25pt;
+}
+
+footer {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
+footer #audio_courtesy {
+    font-size: 8pt;
+}
