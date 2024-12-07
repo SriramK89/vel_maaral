@@ -99,6 +99,10 @@ function fill_vm_content() {
 }
 
 function handle_audio_switch() {
+  if(is_playing) {
+    return;
+  }
+  
   let audio_image = "";
   let audio_img_alt = "";
 
@@ -130,7 +134,6 @@ function start_recital() {
 }
 
 function move_to_next() {
-  console.log('Here...');
   $('.current-verses').hide();
   $('.current-verses').removeClass('current-verses');
   verse_order_number++;
@@ -168,6 +171,7 @@ function toggle_next_button() {
 }
 
 function read_current_verse() {
+  audios = [];
   $('.current-verses .verse').each(function(i, obj) {
     audios.push(new Audio("audio/" + $(obj).data('count') + "_VelMaaral.mp3"));
   });
@@ -195,15 +199,23 @@ $(document).ready(function() {
   $('#vel_maaral').hide();
   $('#end').hide();
 
-  $('#audio_switch').on('click', handle_audio_switch);
+  $(document).on('click', '#audio_switch', function() {
+    handle_audio_switch();
+  });
 
-  $('#thiruthani_repeat').on('change', function() {
+  $(document).on('change', '#thiruthani_repeat', function() {
     thiruthani_repeat = parseInt(this.value);
   });
 
-  $('#start_recital').on('click', start_recital);
+  $(document).on('click', '#start_recital', function() {
+    start_recital();
+  });
 
-  $('.next_verse').on('click', move_to_next);
+  $(document).on('click', '.next_verse', function() {
+    move_to_next();
+  });
 
-  $('#refresh').on('click', restart_chant);
+  $(document).on('click', '#refresh', function() {
+    restart_chant();
+  });
 });
