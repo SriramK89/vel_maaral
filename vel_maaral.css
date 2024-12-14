@@ -35,11 +35,21 @@ p#muruga_img_courtesy, p#repeat_note {
     text-align: center;
 }
 
-#start_recital {
+.btn {
     font-size: 12pt;
     border-radius: 7px;
+    padding: 10px;
+}
+
+#start_recital {
     background-color: #04AA6D; /* Green */
     border-color: #012E1D;
+    color: white;
+}
+
+.next-btn {
+    background-color: #050368; /* Blue */
+    border-color: #050368;
     color: white;
 }
 
@@ -47,12 +57,31 @@ h3.verse {
     line-height: 25pt;
 }
 
+.odd-verse h3.verse {
+    color: #050368;
+}
+
+.even-verse h3.verse {
+    color: #5e0359;
+}
+
 footer {
     position: fixed;
-    bottom: 10px;
-    right: 10px;
+    height: 30px;
+    left: 5px;
+    bottom: 0px;
+    right: 5px;
+    background-color: #FFDDDD;
+    padding-top: 5px;
 }
 
 footer #audio_courtesy {
     font-size: 8pt;
+}
+
+@media (max-width: 600px) {
+    .btn {
+        padding: 35px;
+        font-size: 30pt;
+    }
 }

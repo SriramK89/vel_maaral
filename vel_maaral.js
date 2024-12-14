@@ -59,6 +59,13 @@ function fill_thiruthani_content(order_count) {
   for(let count = 0;count < thiruthani_repeat;count++) {
     let thiruthani_content = '<div class="';
 
+    if(order_count % 2 == 0) {
+      // Even count
+      thiruthani_content += 'even-verse '
+    } else {
+      // Odd count
+      thiruthani_content += 'odd-verse '
+    }
     if(order_count == 1) {
       thiruthani_content += 'current-verses center" data-order="' + order_count;
     } else {
@@ -70,7 +77,7 @@ function fill_thiruthani_content(order_count) {
     let count_str = ((thiruthaniyil_index + 1) < 10) ? '0' + (thiruthaniyil_index + 1) : (thiruthaniyil_index + 1);
     thiruthani_content += count_str + '">' + (count + 1) + '. ' + vel_vaguppu_txt[thiruthaniyil_index] + '</h3>';
     btn_text = (!is_first && ((count + 1) == thiruthani_repeat)) ? 'முற்றும்' : 'அடுத்து'
-    thiruthani_content += '<button class="next_verse">' + btn_text + '</button></div>';
+    thiruthani_content += '<button class="next-verse btn next-btn">' + btn_text + '</button></div>';
     html_content += thiruthani_content;
   }
   
@@ -90,7 +97,7 @@ function fill_vm_content() {
     html_content += '<h3 class="verse" data-count="';
     count_str = ((thiruthaniyil_index + 1) < 10) ? '0' + (thiruthaniyil_index + 1) : (thiruthaniyil_index + 1);
     html_content += count_str + '">' + vel_vaguppu_txt[thiruthaniyil_index] + '</h3>';
-    html_content += '<button class="next_verse">அடுத்து</button></div>';
+    html_content += '<button class="next-verse btn next-btn">அடுத்து</button></div>';
   });
 
   html_content += fill_thiruthani_content(order_count)[1];
@@ -167,7 +174,12 @@ function restart_chant() {
 }
 
 function toggle_next_button() {
-  $('.current-verses button.next_verse').prop('disabled', is_playing);
+  $('.current-verses button.next-verse').prop('disabled', is_playing);
+  if(is_playing) {
+    $('#audio_switch img').hide();
+  } else {
+    $('#audio_switch img').show();
+  }
 }
 
 function read_current_verse() {
@@ -211,7 +223,7 @@ $(document).ready(function() {
     start_recital();
   });
 
-  $(document).on('click', '.next_verse', function() {
+  $(document).on('click', '.next-verse', function() {
     move_to_next();
   });
 
