@@ -55,8 +55,9 @@ const AUDIO_DISABLED_IMG_ALT = "Audio Disabled";
 function fill_thiruthani_content(order_count) {
   let html_content = '';
   let is_first = (order_count == 1);
+  let prev_button = '<button class="prev-verse btn prev-btn">முந்தியது</button><br>';
 
-  for(let count = 0;count < thiruthani_repeat;count++) {
+  for(let count = 0;count < thiruthani_repeat;count++, order_count++) {
     let thiruthani_content = '<div class="';
 
     if(order_count % 2 == 0) {
@@ -67,16 +68,16 @@ function fill_thiruthani_content(order_count) {
       thiruthani_content += 'odd-verse '
     }
     if(order_count == 1) {
-      thiruthani_content += 'current-verses center" data-order="' + order_count;
+      thiruthani_content += 'current-verses center" data-order="' + order_count + '">';
     } else {
-      thiruthani_content += 'center" data-order="' + order_count + '" style="display: none;';
+      thiruthani_content += 'center" data-order="' + order_count + '" style="display: none;">';
     }
-    order_count++;
 
-    thiruthani_content += '"><h3 class="verse" data-count="';
+    thiruthani_content += (order_count == 1 ? '<div id="prev_btn"></div>' : prev_button);
+    thiruthani_content += '<div class="vel-maaral-place"></div><h3 class="verse" data-count="';
     let count_str = ((thiruthaniyil_index + 1) < 10) ? '0' + (thiruthaniyil_index + 1) : (thiruthaniyil_index + 1);
     thiruthani_content += count_str + '">' + (count + 1) + '. ' + vel_vaguppu_txt[thiruthaniyil_index] + '</h3>';
-    btn_text = (!is_first && ((count + 1) == thiruthani_repeat)) ? 'முற்றும்' : 'அடுத்து'
+    btn_text = (!is_first && ((count + 1) == thiruthani_repeat)) ? 'முற்றும்' : 'அடுத்தது'
     thiruthani_content += '<button class="next-verse btn next-btn">' + btn_text + '</button></div>';
     html_content += thiruthani_content;
   }
@@ -92,12 +93,13 @@ function fill_vm_content() {
   $.each(vel_maaral, function(count, vm_index) {
     let count_str = ((vm_index + 1) < 10) ? '0' + (vm_index + 1) : (vm_index + 1);
     html_content += '<div class="center" data-order="' + order_count + '" style="display: none;"><h3 class="verse" data-count="' + count_str + '">';
+    html_content += '<button class="prev-verse btn prev-btn">முந்தியது</button><br>';
     order_count++;
     html_content += (count + 1) + '. ' + vel_vaguppu_txt[vm_index] + '</h3>';
     html_content += '<h3 class="verse" data-count="';
     count_str = ((thiruthaniyil_index + 1) < 10) ? '0' + (thiruthaniyil_index + 1) : (thiruthaniyil_index + 1);
     html_content += count_str + '">' + vel_vaguppu_txt[thiruthaniyil_index] + '</h3>';
-    html_content += '<button class="next-verse btn next-btn">அடுத்து</button></div>';
+    html_content += '<button class="next-verse btn next-btn">அடுத்தது</button></div>';
   });
 
   html_content += fill_thiruthani_content(order_count)[1];
@@ -153,11 +155,19 @@ function move_to_next() {
 
   if(audio_enable) {
     read_current_verse();
-  } else if(is_playing) {
-    $.each(audios, function(index, audio) {
-      audio.pause();
-      audio.currentTime = 0;
-    });
+  }
+}
+
+function move_to_prev() {
+  $('.current-verses').hide();
+  $('.current-verses').removeClass('current-verses');
+
+  verse_order_number--;
+  $('div[data-order="' + verse_order_number + '"]').addClass('current-verses');
+  $('div[data-order="' + verse_order_number + '"]').show();
+
+  if(audio_enable) {
+    read_current_verse();
   }
 }
 
@@ -225,6 +235,10 @@ $(document).ready(function() {
 
   $(document).on('click', '.next-verse', function() {
     move_to_next();
+  });
+
+  $(document).on('click', '.prev-verse', function() {
+    move_to_prev();
   });
 
   $(document).on('click', '#refresh', function() {

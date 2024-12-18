@@ -41,16 +41,32 @@ p#muruga_img_courtesy, p#repeat_note {
     padding: 10px;
 }
 
+#start {
+    margin-bottom: 50px;
+}
+
 #start_recital {
     background-color: #04AA6D; /* Green */
     border-color: #012E1D;
     color: white;
 }
 
-.next-btn {
+.prev-btn, .next-btn {
+    margin-bottom: 10px;
+}
+
+#prev_btn {
+    height: 15.5%;
+}
+
+.next-btn, .prev-btn {
     background-color: #050368; /* Blue */
     border-color: #050368;
     color: white;
+}
+
+.vel-maaral-place {
+    height: 15%;
 }
 
 h3.verse {
