@@ -62,7 +62,13 @@ p#muruga_img_courtesy, p#repeat_note {
 .next-btn, .prev-btn {
     background-color: #050368; /* Blue */
     border-color: #050368;
-    color: white;
+    color: #fff;
+}
+
+button:disabled, button[disabled] {
+    background-color: #a7a7a7;
+    border-color: #5e5e5e;
+    color: #fff;
 }
 
 .vel-maaral-place {

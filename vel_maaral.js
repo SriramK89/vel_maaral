@@ -185,6 +185,7 @@ function restart_chant() {
 
 function toggle_next_button() {
   $('.current-verses button.next-verse').prop('disabled', is_playing);
+  $('.current-verses button.prev-verse').prop('disabled', is_playing);
   if(is_playing) {
     $('#audio_switch img').hide();
   } else {
