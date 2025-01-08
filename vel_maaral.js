@@ -59,13 +59,14 @@ function fill_thiruthani_content(order_count) {
 
   for(let count = 0;count < thiruthani_repeat;count++, order_count++) {
     let thiruthani_content = '<div class="';
+    let content_class;
 
     if(order_count % 2 == 0) {
       // Even count
-      thiruthani_content += 'even-verse '
+      content_class = 'rep-verse';
     } else {
       // Odd count
-      thiruthani_content += 'odd-verse '
+      content_class = 'verse-' + (thiruthaniyil_index + 1);
     }
     if(order_count == 1) {
       thiruthani_content += 'current-verses center" data-order="' + order_count + '">';
@@ -74,7 +75,7 @@ function fill_thiruthani_content(order_count) {
     }
 
     thiruthani_content += (order_count == 1 ? '<div id="prev_btn"></div>' : prev_button);
-    thiruthani_content += '<div class="vel-maaral-place"></div><h3 class="verse" data-count="';
+    thiruthani_content += '<div class="vel-maaral-place"></div><h3 class="' + content_class + ' verse" data-count="';
     let count_str = ((thiruthaniyil_index + 1) < 10) ? '0' + (thiruthaniyil_index + 1) : (thiruthaniyil_index + 1);
     thiruthani_content += count_str + '">' + (count + 1) + '. ' + vel_vaguppu_txt[thiruthaniyil_index] + '</h3>';
     btn_text = (!is_first && ((count + 1) == thiruthani_repeat)) ? 'முற்றும்' : 'அடுத்தது'
@@ -92,11 +93,12 @@ function fill_vm_content() {
 
   $.each(vel_maaral, function(count, vm_index) {
     let count_str = ((vm_index + 1) < 10) ? '0' + (vm_index + 1) : (vm_index + 1);
-    html_content += '<div class="center" data-order="' + order_count + '" style="display: none;"><h3 class="verse" data-count="' + count_str + '">';
+    html_content += '<div class="center" data-order="' + order_count + '" style="display: none;">';
+    html_content += '<h3 class="verse-' + (vm_index + 1) + ' verse" data-count="' + count_str + '">';
     html_content += '<button class="prev-verse btn prev-btn">முந்தியது</button><br>';
     order_count++;
     html_content += (count + 1) + '. ' + vel_vaguppu_txt[vm_index] + '</h3>';
-    html_content += '<h3 class="verse" data-count="';
+    html_content += '<h3 class="rep-verse verse" data-count="';
     count_str = ((thiruthaniyil_index + 1) < 10) ? '0' + (thiruthaniyil_index + 1) : (thiruthaniyil_index + 1);
     html_content += count_str + '">' + vel_vaguppu_txt[thiruthaniyil_index] + '</h3>';
     html_content += '<button class="next-verse btn next-btn">அடுத்தது</button></div>';
@@ -244,5 +246,25 @@ $(document).ready(function() {
 
   $(document).on('click', '#refresh', function() {
     restart_chant();
+  });
+
+  $(document).keydown(function(event){
+    _keyStroke = event.key;
+    switch(_keyStroke) {
+      case 'ArrowLeft':
+        if(!is_reciting) {
+          return;
+        }
+
+        move_to_prev();
+        break;
+      case 'ArrowRight':
+        if(!is_reciting) {
+          return;
+        }
+        
+        move_to_next();
+        break;
+    }
   });
 });
