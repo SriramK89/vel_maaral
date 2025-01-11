@@ -21,11 +21,6 @@ header #audio_switch img {
     width: 25%;
 }
 
-header #auto_play img {
-    width: 4%;
-    display: none;
-}
-
 img#muruga_img {
     height: 50%;
     display: block;
