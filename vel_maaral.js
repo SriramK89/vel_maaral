@@ -159,6 +159,7 @@ function handle_autoplay_switch() {
 
   if(is_reciting) {
     $('.current-verses button.next-verse').prop('disabled', autoplay_enable);
+    $('.current-verses button.prev-verse').prop('disabled', autoplay_enable);
     if(timeout_var != null) {
       clearTimeout(timeout_var);
     }
@@ -179,10 +180,16 @@ function start_recital() {
   if(audio_enable) {
     read_current_verse();
   }
+  if(autoplay_enable) {
+    $('.current-verses button.next-verse').prop('disabled', true);
+    $('.current-verses button.prev-verse').prop('disabled', true);
+    timeout_var = setTimeout(move_to_next, 1000 * 10 * recite_phase);
+  }
 }
 
 function move_to_next() {
   $('.current-verses button.next-verse').prop('disabled', false);
+  $('.current-verses button.prev-verse').prop('disabled', false);
 
   $('.current-verses').hide();
   $('.current-verses').removeClass('current-verses');
@@ -209,6 +216,7 @@ function move_to_next() {
   }
   if(autoplay_enable) {
     $('.current-verses button.next-verse').prop('disabled', true);
+    $('.current-verses button.prev-verse').prop('disabled', true);
     if(timeout_var != null) {
       clearTimeout(timeout_var);
     }
@@ -218,6 +226,7 @@ function move_to_next() {
 
 function move_to_prev() {
   $('.current-verses button.next-verse').prop('disabled', false);
+  $('.current-verses button.prev-verse').prop('disabled', false);
 
   $('.current-verses').hide();
   $('.current-verses').removeClass('current-verses');
@@ -238,6 +247,7 @@ function move_to_prev() {
   }
   if(autoplay_enable) {
     $('.current-verses button.next-verse').prop('disabled', true);
+    $('.current-verses button.prev-verse').prop('disabled', true);
   
     if(timeout_var != null) {
       clearTimeout(timeout_var);
@@ -268,8 +278,8 @@ function restart_chant() {
 function toggle_next_button() {
   if(!autoplay_enable) {
     $('.current-verses button.next-verse').prop('disabled', is_playing);
+    $('.current-verses button.prev-verse').prop('disabled', is_playing);
   }
-  $('.current-verses button.prev-verse').prop('disabled', is_playing);
   if(is_playing) {
     $('#audio_switch img').hide();
     $('#autoplay_switch img').hide();
@@ -340,18 +350,16 @@ $(document).ready(function() {
     _keyStroke = event.key;
     switch(_keyStroke) {
       case 'ArrowLeft':
-        if(!is_reciting) {
-          return;
+        if(!autoplay_enable && is_reciting) {
+          move_to_prev();
         }
 
-        move_to_prev();
         break;
       case 'ArrowRight':
-        if(!is_reciting) {
-          return;
+        if(!autoplay_enable && is_reciting) {
+          move_to_next();
         }
-        
-        move_to_next();
+
         break;
     }
   });
