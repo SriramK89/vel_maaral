@@ -14,11 +14,17 @@ body {
 header #audio_switch {
     position: fixed;
     left: 8px;
-    display: flex;
+    text-align: left;
 }
 
-header #audio_switch img {
-    width: 25%;
+header #autoplay_switch {
+    position: fixed;
+    right: 8px;
+    text-align: right;
+}
+
+header img {
+    width: 70px;
 }
 
 img#muruga_img {

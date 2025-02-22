@@ -42,6 +42,9 @@ var vel_maaral = [
 ];
 var thiruthaniyil_index = 1;
 var audio_enable = false;
+var autoplay_enable = false;
+var recite_phase = 0;
+var timeout_var = null;
 var thiruthani_repeat = 12;
 var is_reciting = false;
 var is_playing = false;
@@ -51,6 +54,10 @@ const AUDIO_ENABLED_IMG = "images/aud_enabled.png";
 const AUDIO_ENABLED_IMG_ALT = "Audio Enabled";
 const AUDIO_DISABLED_IMG = "images/aud_disabled.png";
 const AUDIO_DISABLED_IMG_ALT = "Audio Disabled";
+const AUTOPLAY_ENABLED_IMG = "images/play_icon.png";
+const AUTOPLAY_ENABLED_IMG_ALT = "Autoplay Enabled";
+const AUTOPLAY_DISABLED_IMG = "images/pause_icon.png";
+const AUTOPLAY_DISABLED_IMG_ALT = "Autoplay Disabled";
 
 function fill_thiruthani_content(order_count) {
   let html_content = '';
@@ -134,9 +141,39 @@ function handle_audio_switch() {
   }
 }
 
+function handle_autoplay_switch() {
+  let autoplay_image = "";
+  let autoplay_img_alt = "";
+
+  autoplay_enable = !autoplay_enable;
+
+  if(autoplay_enable) {
+    autoplay_image = AUTOPLAY_DISABLED_IMG;
+    autoplay_img_alt = AUTOPLAY_DISABLED_IMG_ALT;
+  } else {
+    autoplay_image = AUTOPLAY_ENABLED_IMG;
+    autoplay_img_alt = AUTOPLAY_ENABLED_IMG_ALT;
+  }
+
+  $('#autoplay_switch').html('<img src="' + autoplay_image + '" alt="' + autoplay_img_alt + '">');
+
+  if(is_reciting) {
+    $('.current-verses button.next-verse').prop('disabled', autoplay_enable);
+    if(timeout_var != null) {
+      clearTimeout(timeout_var);
+    }
+    if(autoplay_enable) {
+      timeout_var = setTimeout(move_to_next, 1000 * 10 * recite_phase);
+    } else {
+      timeout_var = null;
+    }
+  }
+}
+
 function start_recital() {
   $('#start').hide();
   is_reciting = true;
+  recite_phase = 1;
   fill_vm_content();
   $('#vel_maaral').show();
   if(audio_enable) {
@@ -145,36 +182,78 @@ function start_recital() {
 }
 
 function move_to_next() {
+  $('.current-verses button.next-verse').prop('disabled', false);
+
   $('.current-verses').hide();
   $('.current-verses').removeClass('current-verses');
+
   verse_order_number++;
+
+  if(recite_phase == 1 && verse_order_number == thiruthani_repeat) {
+    recite_phase = 2;
+  } else if(recite_phase == 2 && verse_order_number == (vel_maaral.length + thiruthani_repeat)) {
+    recite_phase = 1;
+  }
+
   if($('div[data-order="' + verse_order_number + '"]').length == 0) {
+    recite_phase = 0;
     show_end();
     return;
   }
+
   $('div[data-order="' + verse_order_number + '"]').addClass('current-verses');
   $('div[data-order="' + verse_order_number + '"]').show();
 
   if(audio_enable) {
     read_current_verse();
+  }
+  if(autoplay_enable) {
+    $('.current-verses button.next-verse').prop('disabled', true);
+    if(timeout_var != null) {
+      clearTimeout(timeout_var);
+    }
+    timeout_var = setTimeout(move_to_next, 1000 * 10 * recite_phase);
   }
 }
 
 function move_to_prev() {
+  $('.current-verses button.next-verse').prop('disabled', false);
+
   $('.current-verses').hide();
   $('.current-verses').removeClass('current-verses');
 
   verse_order_number--;
+
+  if(recite_phase == 2 && verse_order_number == thiruthani_repeat) {
+    recite_phase = 1;
+  } else if(recite_phase == 1 && verse_order_number == (vel_maaral.length + thiruthani_repeat)) {
+    recite_phase = 2;
+  }
+
   $('div[data-order="' + verse_order_number + '"]').addClass('current-verses');
   $('div[data-order="' + verse_order_number + '"]').show();
 
   if(audio_enable) {
     read_current_verse();
+  }
+  if(autoplay_enable) {
+    $('.current-verses button.next-verse').prop('disabled', true);
+  
+    if(timeout_var != null) {
+      clearTimeout(timeout_var);
+    }
+    timeout_var = setTimeout(move_to_next, 1000 * 10 * recite_phase);
   }
 }
 
 function show_end() {
   $('#vel_maaral').hide();
+  if(autoplay_enable) {
+    if(timeout_var != null) {
+      clearTimeout(timeout_var);
+    }
+    timeout_var = null;
+  }
   $('#end').show();
 }
 
@@ -182,16 +261,21 @@ function restart_chant() {
   $('#end').hide();
   $('#vel_maaral').show();
   verse_order_number = 0;
+  recite_phase = 1;
   move_to_next();
 }
 
 function toggle_next_button() {
-  $('.current-verses button.next-verse').prop('disabled', is_playing);
+  if(!autoplay_enable) {
+    $('.current-verses button.next-verse').prop('disabled', is_playing);
+  }
   $('.current-verses button.prev-verse').prop('disabled', is_playing);
   if(is_playing) {
     $('#audio_switch img').hide();
+    $('#autoplay_switch img').hide();
   } else {
     $('#audio_switch img').show();
+    $('#autoplay_switch img').show();
   }
 }
 
@@ -226,6 +310,10 @@ $(document).ready(function() {
 
   $(document).on('click', '#audio_switch', function() {
     handle_audio_switch();
+  });
+
+  $(document).on('click', '#autoplay_switch', function() {
+    handle_autoplay_switch();
   });
 
   $(document).on('change', '#thiruthani_repeat', function() {
