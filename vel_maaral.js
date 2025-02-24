@@ -282,10 +282,8 @@ function toggle_next_button() {
   }
   if(is_playing) {
     $('#audio_switch img').hide();
-    $('#autoplay_switch img').hide();
   } else {
     $('#audio_switch img').show();
-    $('#autoplay_switch img').show();
   }
 }
 
